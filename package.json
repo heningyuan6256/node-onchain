@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon index.js"
+    "serve": "nodemon  src/index.js"
   },
   "type": "module",
   "author": "",
@@ -16,7 +16,9 @@
     "express": "^4.18.3",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.0",
-    "onchain-sdk": "^0.0.30"
+    "onchain-sdk": "^0.0.32",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
   },
   "devDependencies": {
     "@babel/register": "^7.23.7"
