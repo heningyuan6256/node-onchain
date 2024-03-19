@@ -1,6 +1,6 @@
 import { BasicEnv } from "../../../env.js";
 import fetch from "node-fetch";
-import { InstanceUtils, CommonUtils } from "onchain-sdk";
+import { InstanceUtils } from "onchain-sdk";
 
 /**
  * 获取实例
