@@ -9,6 +9,7 @@ router.post("/instance/get", getInstanceInfo);
 router.post("/instance/version/get", getInstanceVersion);
 router.post("/instance/update", updateInstance);
 
+// 会话路由
 router.get("/session/get", getSession);
 
 export { router };
