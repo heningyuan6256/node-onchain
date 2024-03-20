@@ -1,9 +1,10 @@
 import { BasicEnv } from "../../../env.js";
 import fetch from "node-fetch";
-import { InstanceUtils } from "onchain-sdk";
+import { IBaseInstance } from "onchain-sdk";
 
 /**
  * 获取实例
+ * 
  */
 const getInstanceInfo = async (req, res) => {
   const token = req.headers.authorization;
@@ -11,7 +12,7 @@ const getInstanceInfo = async (req, res) => {
   const userId = data.userId;
   const instanceId = data.instanceId;
 
-  const instance = new InstanceUtils({
+  const instance = new IBaseInstance({
     baseUrl: BasicEnv.baseUrl,
     fetch: fetch,
     token: token,
@@ -35,7 +36,7 @@ const updateInstance = async (req, res) => {
   const token = req.headers.authorization;
   const params = req.body;
 
-  const instance = new InstanceUtils({
+  const instance = new IBaseInstance({
     baseUrl: BasicEnv.baseUrl,
     fetch: fetch,
     token: token,
@@ -80,7 +81,7 @@ const getInstanceVersion = async (req, res) => {
   const token = req.headers.authorization;
   const data = req.body;
   console.log(data, "data");
-  const instance = new InstanceUtils({
+  const instance = new IBaseInstance({
     baseUrl: BasicEnv.baseUrl,
     fetch: fetch,
     token: token,

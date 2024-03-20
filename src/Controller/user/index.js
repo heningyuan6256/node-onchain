@@ -11,7 +11,7 @@ const userLoginData = {
 /**
  * 获取会话session
  */
-const getSession = (req, res) => async (err, res) => {
+const getSession = async (err, res) => {
   const CommonManager = new CommonUtils({
     baseUrl: BasicEnv.baseUrl,
     fetch: fetch,

@@ -1131,10 +1131,10 @@ on-finished@2.4.1:
   dependencies:
     ee-first "1.1.1"
 
-onchain-sdk@^0.0.32:
-  version "0.0.32"
-  resolved "https://registry.npmjs.org/onchain-sdk/-/onchain-sdk-0.0.32.tgz#faf34db19f9df4c0ba2f0a90b25edbeee95ef544"
-  integrity sha512-Uf5/gvsFLuxlAb1VmFJgZWtbxo8NJYnKHjEyXfFhKOuHOgC6jnKwTbm/k3uqTeBHG02/7K8kOrgLo0mSv6i6Ow==
+onchain-sdk@^0.0.35:
+  version "0.0.35"
+  resolved "https://registry.npmjs.org/onchain-sdk/-/onchain-sdk-0.0.35.tgz#2372a4f224917bc72a2dbf3564036f450174c133"
+  integrity sha512-oSJXD85hEaAPWiJAvBrX5zWzF7xRsEDVqMUCHRD/HuIhlXT5Bvpju7ExXbsBwaQptBDMv2MnNdUtK77ly6Nc7Q==
 
 p-limit@^2.0.0, p-limit@^2.2.0:
   version "2.3.0"
