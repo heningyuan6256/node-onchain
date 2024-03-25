@@ -26,8 +26,9 @@ const getInstanceInfo = async (req, res) => {
     fetch,
     token: token,
   });
-  // 有就不用获取
-  await OnChainContext.getToken(userLoginData);
+
+  !token && (await OnChainContext.getToken(userLoginData));
+
   const instance = await OnChainContext.getInstance(number);
 
   res.send({
@@ -43,36 +44,18 @@ const updateInstance = async (req, res) => {
   const token = req.headers.authorization;
   const params = req.body;
 
-  const instance = new IBaseInstance({
+  const OnChainContext = new CommonUtils({
     baseUrl: BasicEnv.baseUrl,
-    fetch: fetch,
-    token: token,
     tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
   });
-
-  // 获取编辑权限
-  await instance.getUpdateBasicInstanceInfo({
-    instanceId: params.instanceId,
-    userId: params.userId,
-  });
-
-  if (!instance.hasEditAuth) {
-    return res.send({
-      code: 400,
-      message: "当前实例不具备修改权限",
-    });
-  }
-
-  // 获取基本信息
-  await instance.getReadBasicInstanceInfo({
-    instanceId: params.instanceId,
-    userId: params.userId,
-  });
+  !token && (await OnChainContext.getToken(userLoginData));
 
   // 修改基本属性
-  const updateResult = await instance.updateInstanceInfo({
-    apicode: params.apicode,
-    value: params.value,
+  const updateResult = await instance.updateInstance({
+    attrMap: params.attrMap,
   });
 
   res.send({
