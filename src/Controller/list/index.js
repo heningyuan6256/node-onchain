@@ -14,9 +14,9 @@ const getList = async (req, res) => {
   const codeList = data.codes;
   const common = new CommonUtils({
     baseUrl: BasicEnv.baseUrl,
-    fetch: fetch,
-    token: token,
     tenantId: BasicEnv.tenantId,
+    fetch,
+    token: token,
   });
   const result = await common.transferformListByCodeList(codeList);
   res.send({
