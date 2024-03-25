@@ -10,7 +10,7 @@ router.post("/list/get", getList);
 
 
 // 实例路由
-router.post("/instance/get", getInstanceInfo);
+router.get("/instance/get", getInstanceInfo);
 router.post("/instance/version/get", getInstanceVersion);
 router.post("/instance/update", updateInstance);
 

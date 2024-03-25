@@ -1,27 +1,34 @@
 import { BasicEnv } from "../../../env.js";
 import fetch from "node-fetch";
-import { IBaseInstance } from "onchain-sdk";
+import { CommonUtils, IBaseInstance } from "onchain-sdk";
+
+const userLoginData = {
+  email: "Hny14746999@163.com",
+  password: "953924",
+  userAgent: "",
+};
 
 /**
  * 获取实例
- * 
+ *
  */
 const getInstanceInfo = async (req, res) => {
+  // 处理参数
   const token = req.headers.authorization;
-  const data = req.body;
+  const data = req.params;
   const userId = data.userId;
-  const instanceId = data.instanceId;
+  const number = data.number;
 
-  const instance = new IBaseInstance({
+  const OnChainContext = new CommonUtils({
     baseUrl: BasicEnv.baseUrl,
-    fetch: fetch,
-    token: token,
     tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
   });
-  await instance.getReadBasicInstanceInfo({
-    userId,
-    instanceId,
-  });
+  // 有就不用获取
+  await OnChainContext.getToken(userLoginData);
+  const instance = await OnChainContext.getInstance(number);
 
   res.send({
     code: 200,
