@@ -15,6 +15,9 @@
 # misc
 .DS_Store
 
+.yalc/
+yalc.lock
+
 # umi
 /src/.umi
 /src/.umi-production
