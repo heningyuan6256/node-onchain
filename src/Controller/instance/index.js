@@ -31,6 +31,17 @@ const getInstanceInfo = async (req, res) => {
 
   const instance = await OnChainContext.getInstance(number);
 
+  const BomTab = await instance.getTabByApicode("Bom");
+
+  BomTab.insertTabData([
+    { number: "P0001002", count: "2" },
+    { number: "P0001003", count: "1" },
+  ]);
+
+  // tab.update([])
+
+  // tab.insertTabData([])
+
   res.send({
     code: 200,
     data: instance,
