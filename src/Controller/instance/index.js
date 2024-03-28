@@ -31,21 +31,29 @@ const getInstanceInfo = async (req, res) => {
 
   const instance = await OnChainContext.getInstance(number);
 
-  const BomTab = await instance.getTabByApicode("Bom");
+  const BomTab = await instance.getTabByApicode("BOM");
 
-  BomTab.insertTabData([
-    { number: "P0001002", count: "2" },
-    { number: "P0001003", count: "1" },
-  ]);
+  if (BomTab) {
+    const IRowInstances = await OnChainContext.getInstances("P0001002,P0001003");
 
-  // tab.update([])
+    IRowInstances.forEach((row) => {
+      row.setAttrVal({ tab: BomTab, attrApicode: "Qty", value: "1" });
+    });
 
-  // tab.insertTabData([])
+    BomTab.insertTabData(IRowInstances);
 
-  res.send({
-    code: 200,
-    data: instance,
-  });
+    res.send({
+      code: 200,
+      data: instance,
+      message: "添加成功",
+    });
+  } else {
+    res.send({
+      code: 400,
+      message: "没有找到当前页签",
+      data: instance,
+    });
+  }
 };
 
 /**
