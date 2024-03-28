@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addDataToInstanceTab,
+  delDataToInstanceTab,
   getInstance,
   getInstanceTab,
   getInstanceVersion,
@@ -89,6 +90,27 @@ router.post("/instance/tab/get", getInstanceTab);
  * @apiVersion 1.0.0
  */
 router.post("/instance/tab/add", addDataToInstanceTab);
+
+/**
+ * @api {POST} /instance/tab/delete 添加实例页签的数据
+ * @apiDescription 添加实例页签的数据
+ * @apiName /instance/tab/delete
+ * @apiGroup 页签
+ * @apiParam {string} apicode 页签名的apicode
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} deleteNumbers 要删除的实例编号
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
+router.post("/instance/tab/delete", delDataToInstanceTab);
 
 router.post("/instance/version/get", getInstanceVersion);
 router.post("/instance/update", updateInstance);
