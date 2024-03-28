@@ -6,12 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "nodemon src/index.js",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "doc": "apidoc -i ./src/Router/ -o ./public/"
   },
   "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apidoc": "^1.2.0",
     "babel-node": "^0.0.1-security",
     "body-parser": "^1.20.2",
     "express": "^4.18.3",
@@ -25,5 +27,13 @@
   },
   "devDependencies": {
     "@babel/register": "^7.23.7"
+  },
+  "apidoc": {
+    "name": "onchain-sdk接口文档",
+    "version": "1.0.0",
+    "description": "onchain-sdk接口文档",
+    "title": "onchain-sdk接口文档",
+    "url": "http://localhost:3000/apidoc",
+    "forceLanguage": "zh-cn"
   }
 }
