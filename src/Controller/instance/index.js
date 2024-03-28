@@ -128,6 +128,60 @@ const updateInstance = async (req, res) => {
 };
 
 /**
+ * 修改实例页签信息
+ */
+const updateDataToInstanceTab = async (req, res) => {
+  const token = req.headers.authorization;
+  const data = req.body;
+  const apicode = data.apicode;
+  const number = data.number;
+  const userId = data.userId;
+  const updateInstance = data.updateInstance || [];
+
+  if (!updateInstance.length) {
+    res.send(new ResponseData().error("请输入要修改的实例编号"));
+
+    return;
+  }
+
+  const OnChainContext = new CommonUtils({
+    baseUrl: BasicEnv.baseUrl,
+    tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
+  });
+
+  const instance = await OnChainContext.getInstance(number);
+
+  const Tab = await instance.getTabByApicode({ apicode: apicode });
+
+  if (Tab) {
+    const rowMap = ITab.transformArrayToMap(updateInstance, "Number");
+
+    const tabData = await Tab.getTabData();
+
+    const attrList = Object.keys(updateInstance[0]).filter((attr) => attr.apicode != "Number");
+
+    const NumberList = updateInstance.map((item) => item.Number);
+
+    const rows = tabData.filter((row) => NumberList.includes(row.number));
+
+    rows.forEach((row) => {
+      attrList.forEach((attr) => {
+        row.updateAttrVal({ tab: Tab, attrApicode: attr, value: rowMap[row.number][attr] });
+      });
+    });
+
+    const result = await Tab.updateTabData({ tabData: tabData, instanceRows: rows });
+
+    res.send(new ResponseData().success({ data: result }));
+  } else {
+    res.send(new ResponseData().error("没有找到当前页签"));
+  }
+};
+
+/**
  * 删除实例页签信息
  */
 const delDataToInstanceTab = async (req, res) => {
@@ -161,7 +215,7 @@ const delDataToInstanceTab = async (req, res) => {
 
     const IRowInstances = await OnChainContext.getInstances(deleteNumbers);
 
-    const result = await Tab.deleteTabData({ tabData:tabData, instanceRows: IRowInstances });
+    const result = await Tab.deleteTabData({ tabData: tabData, instanceRows: IRowInstances });
 
     res.send(new ResponseData().success({ data: result }));
   } else {
@@ -196,4 +250,4 @@ const getInstanceVersion = async (req, res) => {
   });
 };
 
-export { updateInstance, getInstanceVersion, getInstance, getInstanceTab, addDataToInstanceTab, delDataToInstanceTab };
+export { updateDataToInstanceTab, updateInstance, getInstanceVersion, getInstance, getInstanceTab, addDataToInstanceTab, delDataToInstanceTab };
