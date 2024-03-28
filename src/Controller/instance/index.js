@@ -1,21 +1,14 @@
 import { BasicEnv } from "../../../env.js";
 import fetch from "node-fetch";
-import { CommonUtils, IBaseInstance } from "onchain-sdk";
-
-const userLoginData = {
-  email: "Hny14746999@163.com",
-  password: "953924",
-  userAgent: "",
-};
+import { CommonUtils, IBaseInstance, ITab } from "onchain-sdk";
+import ResponseData from "../../Utils/response.js";
 
 /**
- * 获取实例
- *
+ * 获取实例的信息
  */
-const getInstanceInfo = async (req, res) => {
-  // 处理参数
+const getInstance = async (req, res) => {
   const token = req.headers.authorization;
-  const data = req.params;
+  const data = req.query;
   const userId = data.userId;
   const number = data.number;
 
@@ -26,33 +19,84 @@ const getInstanceInfo = async (req, res) => {
     fetch,
     token: token,
   });
+  const instance = await OnChainContext.getInstance(number);
+  res.send(new ResponseData().success({ data: instance }));
+};
 
-  !token && (await OnChainContext.getToken(userLoginData));
+/**
+ * 获取实例页签的数据
+ */
+const getInstanceTab = async (req, res) => {
+  const token = req.headers.authorization;
+  const data = req.body;
+  const apicode = data.apicode;
+  const number = data.number;
+  const userId = data.userId;
+
+  const OnChainContext = new CommonUtils({
+    baseUrl: BasicEnv.baseUrl,
+    tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
+  });
+
+  const instance = await OnChainContext.getInstance(number);
+  const tabData = await instance.getTabByApicode({ apicode: apicode });
+  if (tabData) {
+    const data = await tabData.getTabData();
+    res.send(new ResponseData().success({ data: data }));
+  } else {
+    res.send(new ResponseData().error("未查到页签信息"));
+  }
+};
+
+/**
+ * 添加页签的实例数据
+ * addInstance [{Number: 'P0001002', Qty: '1'},{Number:'', Qty: '1'}]
+ */
+const addDataToInstanceTab = async (req, res) => {
+  // 处理参数
+  const token = req.headers.authorization;
+  const data = req.body;
+  const apicode = data.apicode;
+  const number = data.number;
+  const userId = data.userId;
+  const addInstance = data.addInstance;
+  if (addInstance.length) {
+    res.send(new ResponseData().error("添加的实例数据为空"));
+  }
+
+  const OnChainContext = new CommonUtils({
+    baseUrl: BasicEnv.baseUrl,
+    tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
+  });
 
   const instance = await OnChainContext.getInstance(number);
 
-  const BomTab = await instance.getTabByApicode("BOM");
+  const Tab = await instance.getTabByApicode({ apicode: apicode });
 
-  if (BomTab) {
-    const IRowInstances = await OnChainContext.getInstances("P0001002,P0001003");
+  if (Tab) {
+    const rowMap = ITab.transformArrayToMap(addInstance, "Number");
+
+    const attrList = Object.keys(addInstance[0]).filter((attr) => attr.apicode != "Number");
+
+    const IRowInstances = await OnChainContext.getInstances(addInstance.map((item) => item.number).join(","));
 
     IRowInstances.forEach((row) => {
-      row.setAttrVal({ tab: BomTab, attrApicode: "Qty", value: "1" });
+      attrList.forEach((attr) => {
+        row.setAttrVal({ tab: Tab, attrApicode: attr, value: rowMap[row.number][attr] });
+      });
     });
 
-    BomTab.insertTabData(IRowInstances);
+    const result = await Tab.insertTabData(IRowInstances);
 
-    res.send({
-      code: 200,
-      data: instance,
-      message: "添加成功",
-    });
+    res.send(new ResponseData().success({ data: result }));
   } else {
-    res.send({
-      code: 400,
-      message: "没有找到当前页签",
-      data: instance,
-    });
+    res.send(new ResponseData().error("没有找到当前页签"));
   }
 };
 
@@ -70,7 +114,6 @@ const updateInstance = async (req, res) => {
     fetch,
     token: token,
   });
-  !token && (await OnChainContext.getToken(userLoginData));
 
   // 修改基本属性
   const updateResult = await instance.updateInstance({
@@ -89,7 +132,6 @@ const updateInstance = async (req, res) => {
 const getInstanceVersion = async (req, res) => {
   const token = req.headers.authorization;
   const data = req.body;
-  console.log(data, "data");
   const instance = new IBaseInstance({
     baseUrl: BasicEnv.baseUrl,
     fetch: fetch,
@@ -111,4 +153,4 @@ const getInstanceVersion = async (req, res) => {
   });
 };
 
-export { getInstanceInfo, updateInstance, getInstanceVersion };
+export { updateInstance, getInstanceVersion, getInstance, getInstanceTab, addDataToInstanceTab };

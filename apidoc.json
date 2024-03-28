@@ -1,7 +1,7 @@
 {
-  "name": "onchain-sdk接口文档",
+  "name": "onchain-sdk",
   "version": "1.0.0",
-  "description": "onchain-sdk接口文档",
+  "description": "接口文档",
   "title": "onchain-sdk接口文档",
   "url": "http://localhost:3000/apidoc",
   "forceLanguage": "zh-cn"

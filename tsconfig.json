@@ -5,7 +5,7 @@
     // "sourceMap": true,
     "outDir": "dist"
   },
-  "include": ["src/**/*.ts", "src/index.mts", "src/index.js"],
+  "include": ["src/**/*.ts", "src/index.mts", "src/index.js", "src/Utils/response"],
   "ts-node": {
     // Tell ts-node CLI to install the --loader automatically, explained below
     "esm": true

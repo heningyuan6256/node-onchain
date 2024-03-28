@@ -1,46 +1,95 @@
 import express from "express";
-import { getInstanceInfo, getInstanceVersion, updateInstance } from "../Controller/instance/index.js";
+import { getInstance, getInstanceTab, getInstanceVersion, updateInstance } from "../Controller/instance/index.js";
 import { getSession } from "../Controller/user/index.js";
 import { getList } from "../Controller/list/index.js";
 
 const router = express.Router();
 
 /**
- * @api {post} /api/article 新建文章
- * @apiDescription 新建文章
- * @apiName 新建文章
- * @apiGroup 文章
- *
- * @apiSampleRequest http://localhost:3000/api/article
- *
- * @apiParam {String} title 文章标题
- * @apiParam {String} desc 描述
- * @apiParamExample {json} 请求示例
- * {
- *   "title": "文章标题",
- *   "desc": "描述"
- * }
- *
- * @apiSuccess {Number} code 状态码
- * @apiSuccess {Object} data 返回数据
- * @apiSuccess {String} message 信息
- * @apiSuccessExample {json} 响应示例
- * {
- *   "code": 0,
- *   "data": {}
- *   "message": ""
- * }
- *
+ * @api {POST} /api/token/get 用户登录
+ * @apiDescription 用户登录
+ * @apiName /token/get
+ * @apiGroup 用户
+ * @apiParam {string} email 邮箱
+ * @apiParam {string} password 密码
+ * @apiParam {string} userAgent 登陆平台
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+//  * @apiSampleRequest http://localhost:3000/api/token/get
  * @apiVersion 1.0.0
  */
-router.post("/list/get", getList);
+router.post("/token/get", getSession);
 
-// 实例路由
-router.get("/instance/get", getInstanceInfo);
+/**
+ * @api {POST} /api/instance/get 获取实例详情信息
+ * @apiDescription 获取实例详情信息
+ * @apiName /api/instance/get 
+ * @apiGroup 实例
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+//  * @apiSampleRequest http://localhost:3000/api/token/get
+ * @apiVersion 1.0.0
+ */
+router.get("/instance/get", getInstance);
+
+/**
+ * @api {POST} /api/instance/tab/get 获取实例页签的数据
+ * @apiDescription 获取实例页签的数据
+ * @apiName /api/instance/tab/get
+ * @apiGroup 页签
+ * @apiParam {string} apicode 页签名的apicode
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+//  * @apiSampleRequest http://localhost:3000/api/token/get
+ * @apiVersion 1.0.0
+ */
+router.post("/instance/tab/get", getInstanceTab);
+
+/**
+ * @api {POST} /api/instance/tab/get 获取实例页签的数据
+ * @apiDescription 获取实例页签的数据
+ * @apiName /api/instance/tab/get
+ * @apiGroup 页签
+ * @apiParam {string} apicode 页签名的apicode
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+//  * @apiSampleRequest http://localhost:3000/api/token/get
+ * @apiVersion 1.0.0
+ */
+// router.get("/instance/tab/get", getInstanceTab);
+
 router.post("/instance/version/get", getInstanceVersion);
 router.post("/instance/update", updateInstance);
 
-// 会话路由
-router.get("/session/get", getSession);
+router.post("/list/get", getList);
 
 export { router };
