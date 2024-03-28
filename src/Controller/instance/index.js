@@ -63,8 +63,9 @@ const addDataToInstanceTab = async (req, res) => {
   const number = data.number;
   const userId = data.userId;
   const addInstance = data.addInstance;
-  if (addInstance.length) {
+  if (!addInstance.length) {
     res.send(new ResponseData().error("添加的实例数据为空"));
+    return;
   }
 
   const OnChainContext = new CommonUtils({
@@ -84,7 +85,7 @@ const addDataToInstanceTab = async (req, res) => {
 
     const attrList = Object.keys(addInstance[0]).filter((attr) => attr.apicode != "Number");
 
-    const IRowInstances = await OnChainContext.getInstances(addInstance.map((item) => item.number).join(","));
+    const IRowInstances = await OnChainContext.getInstances(addInstance.map((item) => item.Number).join(","));
 
     IRowInstances.forEach((row) => {
       attrList.forEach((attr) => {
@@ -92,7 +93,8 @@ const addDataToInstanceTab = async (req, res) => {
       });
     });
 
-    const result = await Tab.insertTabData(IRowInstances);
+    console.log(IRowInstances,'IRowInstances');
+    const result = await Tab.insertTabData({ instanceRows: IRowInstances });
 
     res.send(new ResponseData().success({ data: result }));
   } else {
