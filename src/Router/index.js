@@ -134,8 +134,28 @@ router.post("/instance/tab/delete", delDataToInstanceTab);
  */
 router.post("/instance/tab/update", updateDataToInstanceTab);
 
-router.post("/instance/version/get", getInstanceVersion);
+/**
+ * @api {POST} /instance/update 修改实例页签的数据
+ * @apiDescription 添加实例页签的数据
+ * @apiName /instance/update
+ * @apiGroup 页签
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} attrMap 属性Map
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
 router.post("/instance/update", updateInstance);
+
+router.post("/instance/version/get", getInstanceVersion);
+
 
 router.post("/list/get", getList);
 

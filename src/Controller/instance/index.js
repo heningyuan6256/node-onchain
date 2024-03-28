@@ -107,6 +107,9 @@ const addDataToInstanceTab = async (req, res) => {
 const updateInstance = async (req, res) => {
   const token = req.headers.authorization;
   const params = req.body;
+  const number = params.number;
+  const attrMap = params.attrMap;
+  const userId = params.userId;
 
   const OnChainContext = new CommonUtils({
     baseUrl: BasicEnv.baseUrl,
@@ -116,9 +119,11 @@ const updateInstance = async (req, res) => {
     token: token,
   });
 
+  const instance = await OnChainContext.getInstance(number);
+
   // 修改基本属性
   const updateResult = await instance.updateInstance({
-    attrMap: params.attrMap,
+    attrMap: attrMap,
   });
 
   res.send({
@@ -250,4 +255,12 @@ const getInstanceVersion = async (req, res) => {
   });
 };
 
-export { updateDataToInstanceTab, updateInstance, getInstanceVersion, getInstance, getInstanceTab, addDataToInstanceTab, delDataToInstanceTab };
+export {
+  updateDataToInstanceTab,
+  updateInstance,
+  getInstanceVersion,
+  getInstance,
+  getInstanceTab,
+  addDataToInstanceTab,
+  delDataToInstanceTab,
+};
