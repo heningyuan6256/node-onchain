@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "nodemon src/index.js",
     "build": "webpack --mode production",
-    "doc": "apidoc -i ./src/Router/ -o ./public/"
+    "doc": "apidoc -i ./src/Router/ -o ./public/ --write-json"
   },
   "type": "module",
   "author": "",
