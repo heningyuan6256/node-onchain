@@ -2,6 +2,7 @@ import express from "express";
 import {
   addDataToInstanceTab,
   delDataToInstanceTab,
+  deleteInstance,
   getInstance,
   getInstanceTab,
   getInstanceVersion,
@@ -73,9 +74,9 @@ router.get("/instance/get", getInstance);
 router.post("/instance/tab/get", getInstanceTab);
 
 /**
- * @api {POST} /instance/tab/add 添加实例页签的数据
+ * @api {POST} /api/instance/tab/add 获取实例页签的数据
  * @apiDescription 添加实例页签的数据
- * @apiName /instance/tab/add
+ * @apiName /api/instance/tab/add
  * @apiGroup 页签
  * @apiParam {string} apicode 页签名的apicode
  * @apiParam {string} userId 用户ID
@@ -94,9 +95,9 @@ router.post("/instance/tab/get", getInstanceTab);
 router.post("/instance/tab/add", addDataToInstanceTab);
 
 /**
- * @api {POST} /instance/tab/delete 添加实例页签的数据
- * @apiDescription 添加实例页签的数据
- * @apiName /instance/tab/delete
+ * @api {POST} /api/instance/tab/delete 删除实例页签的数据
+ * @apiDescription 删除实例页签的数据
+ * @apiName /api/instance/tab/delete
  * @apiGroup 页签
  * @apiParam {string} apicode 页签名的apicode
  * @apiParam {string} userId 用户ID
@@ -115,8 +116,8 @@ router.post("/instance/tab/add", addDataToInstanceTab);
 router.post("/instance/tab/delete", delDataToInstanceTab);
 
 /**
- * @api {POST} /instance/tab/update 修改实例页签的数据
- * @apiDescription 添加实例页签的数据
+ * @api {POST} /api/instance/tab/update 修改实例页签的数据
+ * @apiDescription 修改实例页签的数据
  * @apiName /instance/tab/update
  * @apiGroup 页签
  * @apiParam {string} apicode 页签名的apicode
@@ -136,10 +137,10 @@ router.post("/instance/tab/delete", delDataToInstanceTab);
 router.post("/instance/tab/update", updateDataToInstanceTab);
 
 /**
- * @api {POST} /instance/update 修改实例的数据
- * @apiDescription 添加实例的数据
- * @apiName /instance/update
- * @apiGroup 页签
+ * @api {POST} /api/instance/update 修改实例
+ * @apiDescription 修改实例
+ * @apiName /api/instance/update
+ * @apiGroup 实例
  * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
  * @apiParam {string} attrMap 属性Map
@@ -156,9 +157,9 @@ router.post("/instance/tab/update", updateDataToInstanceTab);
 router.post("/instance/update", updateInstance);
 
 /**
- * @api {POST} /workflow/start 启动工作流
+ * @api {POST} /api/workflow/start 启动工作流
  * @apiDescription 启动工作流
- * @apiName /workflow/start
+ * @apiName /api/workflow/start
  * @apiGroup 工作流
  * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
@@ -175,9 +176,9 @@ router.post("/instance/update", updateInstance);
 router.post("/workflow/start", startWorkflow);
 
 /**
- * @api {POST} /workflow/cancel 取消工作流
- * @apiDescription 启动工作流
- * @apiName /workflow/cancel
+ * @api {POST} /api/workflow/cancel 取消工作流
+ * @apiDescription 取消工作流
+ * @apiName /api/workflow/cancel
  * @apiGroup 工作流
  * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
@@ -193,7 +194,43 @@ router.post("/workflow/start", startWorkflow);
  */
 router.post("/workflow/cancel", cancelWorkflow);
 
+/**
+ * @api {POST} /api/instance/version/get 查询实例的版本
+ * @apiDescription 查询实例的版本
+ * @apiName /api/instance/version/get
+ * @apiGroup 实例
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
 router.post("/instance/version/get", getInstanceVersion);
+
+/**
+ * @api {POST} /api/instance/delete 删除实例
+ * @apiDescription 删除实例
+ * @apiName /api/instance/delete
+ * @apiGroup 实例
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
+router.post("/instance/delete", deleteInstance);
 
 router.post("/list/get", getList);
 

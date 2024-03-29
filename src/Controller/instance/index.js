@@ -229,6 +229,30 @@ const delDataToInstanceTab = async (req, res) => {
 };
 
 /**
+ * 删除实例
+ */
+const deleteInstance = async (req, res) => {
+  const token = req.headers.authorization;
+  const data = req.body;
+  const number = data.number;
+  const userId = data.userId;
+
+  const OnChainContext = new CommonUtils({
+    baseUrl: BasicEnv.baseUrl,
+    tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
+  });
+
+  const instance = await OnChainContext.getInstance(number);
+
+  await instance.deleteInstance();
+
+  res.send(new ResponseData().success("删除成功"));
+};
+
+/**
  * 获取实例的版本信息
  */
 const getInstanceVersion = async (req, res) => {
@@ -269,4 +293,5 @@ export {
   getInstanceTab,
   addDataToInstanceTab,
   delDataToInstanceTab,
+  deleteInstance,
 };
