@@ -10,6 +10,7 @@ import {
 } from "../Controller/instance/index.js";
 import { getSession } from "../Controller/user/index.js";
 import { getList } from "../Controller/list/index.js";
+import { cancelWorkflow, startWorkflow } from "../Controller/workflow/index.js";
 
 const router = express.Router();
 
@@ -135,8 +136,8 @@ router.post("/instance/tab/delete", delDataToInstanceTab);
 router.post("/instance/tab/update", updateDataToInstanceTab);
 
 /**
- * @api {POST} /instance/update 修改实例页签的数据
- * @apiDescription 添加实例页签的数据
+ * @api {POST} /instance/update 修改实例的数据
+ * @apiDescription 添加实例的数据
  * @apiName /instance/update
  * @apiGroup 页签
  * @apiParam {string} userId 用户ID
@@ -154,8 +155,45 @@ router.post("/instance/tab/update", updateDataToInstanceTab);
  */
 router.post("/instance/update", updateInstance);
 
-router.post("/instance/version/get", getInstanceVersion);
+/**
+ * @api {POST} /workflow/start 启动工作流
+ * @apiDescription 启动工作流
+ * @apiName /workflow/start
+ * @apiGroup 工作流
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
+router.post("/workflow/start", startWorkflow);
 
+/**
+ * @api {POST} /workflow/cancel 取消工作流
+ * @apiDescription 启动工作流
+ * @apiName /workflow/cancel
+ * @apiGroup 工作流
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
+router.post("/workflow/cancel", cancelWorkflow);
+
+router.post("/instance/version/get", getInstanceVersion);
 
 router.post("/list/get", getList);
 
