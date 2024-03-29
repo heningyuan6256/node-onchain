@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addDataToInstanceTab,
+  createInstance,
   delDataToInstanceTab,
   deleteInstance,
   getInstance,
@@ -74,7 +75,7 @@ router.get("/instance/get", getInstance);
 router.post("/instance/tab/get", getInstanceTab);
 
 /**
- * @api {POST} /api/instance/tab/add 获取实例页签的数据
+ * @api {POST} /api/instance/tab/add 添加实例页签的数据
  * @apiDescription 添加实例页签的数据
  * @apiName /api/instance/tab/add
  * @apiGroup 页签
@@ -231,6 +232,26 @@ router.post("/instance/version/get", getInstanceVersion);
  * @apiVersion 1.0.0
  */
 router.post("/instance/delete", deleteInstance);
+
+/**
+ * @api {POST} /api/instance/create 创建实例
+ * @apiDescription 创建实例
+ * @apiName /api/instance/create
+ * @apiGroup 实例
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} ObjectApicode 子分类的ObjectApicode
+ * @apiParam {string} params 属性的集合
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
+router.post("/instance/create", createInstance);
 
 /**
  * @api {POST} /api/list/get 获取列表值

@@ -4,6 +4,27 @@ import { CommonUtils, IBaseInstance, ITab } from "onchain-sdk";
 import ResponseData from "../../Utils/response.js";
 
 /**
+ * 创建实例
+ */
+const createInstance = async (req, res) => {
+  const token = req.headers.authorization;
+  const data = req.query;
+  const userId = data.userId;
+  const ObjectApicode = data.ObjectApicode;
+  const params = data.params;
+
+  const OnChainContext = new CommonUtils({
+    baseUrl: BasicEnv.baseUrl,
+    tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
+  });
+  const instance = await OnChainContext.createInstance(ObjectApicode, params);
+  res.send(new ResponseData().success({ data: instance }));
+};
+
+/**
  * 获取实例的信息
  */
 const getInstance = async (req, res) => {
@@ -294,4 +315,5 @@ export {
   addDataToInstanceTab,
   delDataToInstanceTab,
   deleteInstance,
+  createInstance,
 };
