@@ -232,6 +232,23 @@ router.post("/instance/version/get", getInstanceVersion);
  */
 router.post("/instance/delete", deleteInstance);
 
+/**
+ * @api {POST} /api/list/get 获取列表值
+ * @apiDescription 获取列表值
+ * @apiName /api/list/get
+ * @apiGroup 列表值
+ * @apiParam {string} userId 用户ID
+ * @apiParam {string} codes 列表Code [{code: ""}]
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
 router.post("/list/get", getList);
 
 export { router };
