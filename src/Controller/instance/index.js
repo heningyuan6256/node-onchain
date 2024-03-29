@@ -234,25 +234,31 @@ const delDataToInstanceTab = async (req, res) => {
 const getInstanceVersion = async (req, res) => {
   const token = req.headers.authorization;
   const data = req.body;
-  const instance = new IBaseInstance({
+  const number = data.number;
+  const userId = data.userId;
+
+  const OnChainContext = new CommonUtils({
     baseUrl: BasicEnv.baseUrl,
-    fetch: fetch,
+    tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
     token: token,
-    tenantId: BasicEnv.tenantId,
   });
-  const {
-    result: { pdmAttributeCustomizedVoList, readInstanceVo },
-  } = await instance.getInstanceInfo({
-    tenantId: BasicEnv.tenantId,
-    ...data,
+
+  const instance = await OnChainContext.getInstance(number);
+
+  const { versions, versionOrderMap, orderVersionMap, orderPreVersionMap } = await instance.getInstanceVersion({
+    instanceId: instance.basicReadInstanceInfo.insId,
   });
-  res.send({
-    code: 200,
-    data: {
-      readInstanceVo: readInstanceVo,
-      pdmAttributeCustomizedVoList: pdmAttributeCustomizedVoList,
-    },
-  });
+
+  res.send(
+    new ResponseData().success({
+      versions,
+      versionOrderMap,
+      orderVersionMap,
+      orderPreVersionMap,
+    })
+  );
 };
 
 export {
