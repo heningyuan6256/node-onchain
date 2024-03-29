@@ -26,7 +26,8 @@
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "@babel/register": "^7.23.7"
+    "@babel/register": "^7.23.7",
+    "apidoc-swagger": "^0.3.2"
   },
   "apidoc": {
     "name": "onchain-sdk接口文档",

@@ -41,7 +41,6 @@ router.post("/token/get", getSession);
  * @apiName /api/instance/get
  * @apiGroup 实例
  * @apiParam {string} number 实例编号
- * @apiParam {string} userId 用户ID
  * @apiParam {string} headers token
  * @apiSuccess {json} result
  * @apiSuccessExample {json} Success-Response:
@@ -60,7 +59,6 @@ router.get("/instance/get", getInstance);
  * @apiName /api/instance/tab/get
  * @apiGroup 页签
  * @apiParam {string} apicode 页签名的apicode
- * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
  * @apiParam {string} headers token
  * @apiSuccess {json} result
@@ -80,7 +78,6 @@ router.post("/instance/tab/get", getInstanceTab);
  * @apiName /api/instance/tab/add
  * @apiGroup 页签
  * @apiParam {string} apicode 页签名的apicode
- * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
  * @apiParam {string} addInstance 要添加的实例数据
  * @apiParam {string} headers token
@@ -101,7 +98,6 @@ router.post("/instance/tab/add", addDataToInstanceTab);
  * @apiName /api/instance/tab/delete
  * @apiGroup 页签
  * @apiParam {string} apicode 页签名的apicode
- * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
  * @apiParam {string} deleteNumbers 要删除的实例编号
  * @apiParam {string} headers token
@@ -122,7 +118,6 @@ router.post("/instance/tab/delete", delDataToInstanceTab);
  * @apiName /instance/tab/update
  * @apiGroup 页签
  * @apiParam {string} apicode 页签名的apicode
- * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
  * @apiParam {string} updateInstance 要修改的实例编号
  * @apiParam {string} headers token
@@ -142,7 +137,6 @@ router.post("/instance/tab/update", updateDataToInstanceTab);
  * @apiDescription 修改实例
  * @apiName /api/instance/update
  * @apiGroup 实例
- * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
  * @apiParam {string} attrMap 属性Map
  * @apiParam {string} headers token
@@ -162,7 +156,6 @@ router.post("/instance/update", updateInstance);
  * @apiDescription 启动工作流
  * @apiName /api/workflow/start
  * @apiGroup 工作流
- * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
  * @apiParam {string} headers token
  * @apiSuccess {json} result
@@ -181,7 +174,6 @@ router.post("/workflow/start", startWorkflow);
  * @apiDescription 取消工作流
  * @apiName /api/workflow/cancel
  * @apiGroup 工作流
- * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
  * @apiParam {string} headers token
  * @apiSuccess {json} result
@@ -200,7 +192,6 @@ router.post("/workflow/cancel", cancelWorkflow);
  * @apiDescription 查询实例的版本
  * @apiName /api/instance/version/get
  * @apiGroup 实例
- * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
  * @apiParam {string} headers token
  * @apiSuccess {json} result
@@ -219,7 +210,6 @@ router.post("/instance/version/get", getInstanceVersion);
  * @apiDescription 删除实例
  * @apiName /api/instance/delete
  * @apiGroup 实例
- * @apiParam {string} userId 用户ID
  * @apiParam {string} number 实例编号
  * @apiParam {string} headers token
  * @apiSuccess {json} result
@@ -238,7 +228,6 @@ router.post("/instance/delete", deleteInstance);
  * @apiDescription 创建实例
  * @apiName /api/instance/create
  * @apiGroup 实例
- * @apiParam {string} userId 用户ID
  * @apiParam {string} ObjectApicode 子分类的ObjectApicode
  * @apiParam {string} params 属性的集合
  * @apiParam {string} headers token
@@ -258,7 +247,6 @@ router.post("/instance/create", createInstance);
  * @apiDescription 获取列表值
  * @apiName /api/list/get
  * @apiGroup 列表值
- * @apiParam {string} userId 用户ID
  * @apiParam {string} codes 列表Code [{code: ""}]
  * @apiParam {string} headers token
  * @apiSuccess {json} result
