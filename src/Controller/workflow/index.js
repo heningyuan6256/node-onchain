@@ -19,7 +19,7 @@ const startWorkflow = async (req, res) => {
     fetch,
     token: token,
   });
-
+  await OnChainContext.getUserByToken()
   const changeInstance = await OnChainContext.getInstance(number);
 
   const result = await changeInstance.startWorkflow();
@@ -43,7 +43,7 @@ const cancelWorkflow = async (req, res) => {
     fetch,
     token: token,
   });
-
+  await OnChainContext.getUserByToken()
   const changeInstance = await OnChainContext.getInstance(number);
 
   const result = await changeInstance.cancelWorkflow();
