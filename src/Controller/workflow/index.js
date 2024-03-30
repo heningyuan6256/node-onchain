@@ -1,7 +1,6 @@
 import { CommonUtils, IChangeInstance } from "onchain-sdk";
 import { BasicEnv } from "../../../env.js";
 import fetch from "node-fetch";
-import { CommonUtils } from "onchain-sdk";
 import ResponseData from "../../Utils/response.js";
 /**
  * 提交工作流

@@ -20,7 +20,7 @@ const createInstance = async (req, res) => {
     fetch,
     token: token,
   });
-  await OnChainContext.getUserByToken()
+  await OnChainContext.getUserByToken();
   const instance = await OnChainContext.createInstance(ObjectApicode, params);
   res.send(new ResponseData().success({ data: instance }));
 };
@@ -41,7 +41,7 @@ const getInstance = async (req, res) => {
     fetch,
     token: token,
   });
-  await OnChainContext.getUserByToken()
+  await OnChainContext.getUserByToken();
   const instance = await OnChainContext.getInstance(number);
   res.send(new ResponseData().success({ data: instance }));
 };
@@ -63,7 +63,7 @@ const getInstanceTab = async (req, res) => {
     fetch,
     token: token,
   });
-  await OnChainContext.getUserByToken()
+  await OnChainContext.getUserByToken();
   const instance = await OnChainContext.getInstance(number);
   const tabData = await instance.getTabByApicode({ apicode: apicode });
   if (tabData) {
@@ -98,7 +98,7 @@ const addDataToInstanceTab = async (req, res) => {
     fetch,
     token: token,
   });
-  await OnChainContext.getUserByToken()
+  await OnChainContext.getUserByToken();
   const instance = await OnChainContext.getInstance(number);
 
   const Tab = await instance.getTabByApicode({ apicode: apicode });
@@ -141,18 +141,18 @@ const updateInstance = async (req, res) => {
     fetch,
     token: token,
   });
-  await OnChainContext.getUserByToken()
+  await OnChainContext.getUserByToken();
   const instance = await OnChainContext.getInstance(number);
 
-  // 修改基本属性
-  const updateResult = await instance.updateInstance({
-    attrMap: attrMap,
-  });
-
-  res.send({
-    code: 200,
-    data: updateResult,
-  });
+  try {
+    // 修改基本属性
+    const updateResult = await instance.updateInstance({
+      attrMap: attrMap,
+    });
+    res.send(new ResponseData().success(updateResult));
+  } catch (error) {
+    res.send(new ResponseData().error(error.toString()));
+  }
 };
 
 /**
@@ -179,7 +179,7 @@ const updateDataToInstanceTab = async (req, res) => {
     fetch,
     token: token,
   });
-  await OnChainContext.getUserByToken()
+  await OnChainContext.getUserByToken();
   const instance = await OnChainContext.getInstance(number);
 
   const Tab = await instance.getTabByApicode({ apicode: apicode });
@@ -233,7 +233,7 @@ const delDataToInstanceTab = async (req, res) => {
     fetch,
     token: token,
   });
-  await OnChainContext.getUserByToken()
+  await OnChainContext.getUserByToken();
   const instance = await OnChainContext.getInstance(number);
 
   const Tab = await instance.getTabByApicode({ apicode: apicode });
@@ -267,7 +267,7 @@ const deleteInstance = async (req, res) => {
     fetch,
     token: token,
   });
-  await OnChainContext.getUserByToken()
+  await OnChainContext.getUserByToken();
   const instance = await OnChainContext.getInstance(number);
 
   await instance.deleteInstance();
@@ -291,7 +291,7 @@ const getInstanceVersion = async (req, res) => {
     fetch,
     token: token,
   });
-  await OnChainContext.getUserByToken()
+  await OnChainContext.getUserByToken();
   const instance = await OnChainContext.getInstance(number);
 
   const { versions, versionOrderMap, orderVersionMap, orderPreVersionMap } = await instance.getInstanceVersion({
