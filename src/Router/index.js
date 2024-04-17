@@ -9,6 +9,7 @@ import {
   getInstance,
   getInstanceTab,
   getInstanceVersion,
+  getRedLineTabData,
   updateDataToInstanceRedLineTab,
   updateDataToInstanceTab,
   updateInstance,
@@ -328,5 +329,26 @@ router.post("/instance/tab/redline/delete", delDataToInstanceRedLineTab);
  * @apiVersion 1.0.0
  */
 router.post("/instance/tab/redline/update", updateDataToInstanceRedLineTab);
+
+/**
+ * @api {POST} /api/instance/tab/redline/get 获取红线实例页签的数据
+ * @apiDescription 获取红线实例页签的数据
+ * @apiName /api/instance/tab/redline/get
+ * @apiParam {string} changeNumber 变更实例编号
+ * @apiParam {string} changeTabApicode 变更页签的apicode
+ * @apiGroup 实施对象页签
+ * @apiParam {string} apicode 页签名的apicode
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
+router.post("/instance/tab/get", getRedLineTabData);
 
 export { router };
