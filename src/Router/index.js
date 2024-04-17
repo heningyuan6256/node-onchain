@@ -1,12 +1,15 @@
 import express from "express";
 import {
+  addDataToInstanceRedLineTab,
   addDataToInstanceTab,
   createInstance,
+  delDataToInstanceRedLineTab,
   delDataToInstanceTab,
   deleteInstance,
   getInstance,
   getInstanceTab,
   getInstanceVersion,
+  updateDataToInstanceRedLineTab,
   updateDataToInstanceTab,
   updateInstance,
 } from "../Controller/instance/index.js";
@@ -259,5 +262,71 @@ router.post("/instance/create", createInstance);
  * @apiVersion 1.0.0
  */
 router.post("/list/get", getList);
+
+/**
+ * @api {POST} /api/instance/tab/redline/add 添加实例页签的数据
+ * @apiDescription 添加实例页签的数据
+ * @apiName /api/instance/tab/redline/add
+ * @apiGroup 实施对象页签
+ * @apiParam {string} apicode 页签名的apicode
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} changeNumber 变更实例编号
+ * @apiParam {string} changeTabApicode 变更页签的apicode
+ * @apiParam {string} addInstance 要添加的实例数据
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
+router.post("/instance/tab/redline/add", addDataToInstanceRedLineTab);
+
+/**
+ * @api {POST} /api/instance/tab/redline/delete 删除实例页签的数据
+ * @apiDescription 删除实例页签的数据
+ * @apiName /api/instance/tab/redline/delete
+ * @apiGroup 实施对象页签
+ * @apiParam {string} apicode 页签名的apicode
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} changeNumber 变更实例编号
+ * @apiParam {string} changeTabApicode 变更页签的apicode
+ * @apiParam {string} deleteNumbers 要删除的实例编号
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
+router.post("/instance/tab/redline/delete", delDataToInstanceRedLineTab);
+
+/**
+ * @api {POST} /api/instance/tab/redline/update 修改实例页签的数据
+ * @apiDescription 修改实例页签的数据
+ * @apiName /api/instance/tab/redline/update
+ * @apiGroup 实施对象页签
+ * @apiParam {string} apicode 页签名的apicode
+ * @apiParam {string} number 实例编号
+ * @apiParam {string} changeNumber 变更实例编号
+ * @apiParam {string} changeTabApicode 变更页签的apicode
+ * @apiParam {string} updateInstance 要修改的实例编号
+ * @apiParam {string} headers token
+ * @apiSuccess {json} result
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      "code" : 200,
+ *      "message" : "",
+ *      "data" : {},
+ *  }
+ * @apiVersion 1.0.0
+ */
+router.post("/instance/tab/redline/update", updateDataToInstanceRedLineTab);
 
 export { router };

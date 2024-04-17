@@ -130,8 +130,11 @@ const addDataToInstanceTab = async (req, res) => {
 const updateInstance = async (req, res) => {
   const token = req.headers.authorization;
   const params = req.body;
-  const number = params.number;
-  const attrMap = params.attrMap;
+  const number = params.code;
+  console.log("进入修改");
+  const attrMap = {
+    Description: "extension修改",
+  };
   const userId = params.userId;
 
   const OnChainContext = new CommonUtils({
@@ -308,6 +311,205 @@ const getInstanceVersion = async (req, res) => {
   );
 };
 
+/**
+ * 删除红线实例页签信息
+ */
+const delDataToInstanceRedLineTab = async (req, res) => {
+  const token = req.headers.authorization;
+  const data = req.body;
+  const apicode = data.apicode;
+  const number = data.number;
+  const userId = data.userId;
+  // 变更的tab apicode
+  const changeTabApicode = data.changeTabApicode;
+  const changeNumber = data.changeNumber;
+  const deleteNumbers = data.deleteNumbers || [];
+
+  if (!deleteNumbers.length) {
+    res.send(new ResponseData().error("请输入要解绑定的实例编号"));
+
+    return;
+  }
+
+  const OnChainContext = new CommonUtils({
+    baseUrl: BasicEnv.baseUrl,
+    tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
+  });
+
+  await OnChainContext.getUserByToken();
+
+  const EffectInstance = await OnChainContext.getEffectInstance({ number, changeNumber, changeTabApicode });
+
+  const RedLineTab = await EffectInstance.getTabByApicode({ apicode: apicode });
+
+  if (!RedLineTab) {
+    res.send(new ResponseData().error("没有找到当前页签"));
+  }
+
+  const tabData = await RedLineTab.getTabData();
+
+  const IRowInstances = await OnChainContext.getInstances(deleteNumbers);
+
+  const result = await Tab.deleteTabData({ tabData: tabData, instanceRows: IRowInstances });
+
+  res.send(new ResponseData().success({ data: result }));
+};
+
+/**
+ * 获取红线实例页签信息
+ */
+const getRedLineTabData = async (req, res) => {
+  const token = req.headers.authorization;
+  const data = req.body;
+  const apicode = data.apicode;
+  const number = data.number;
+  const userId = data.userId;
+  // 变更的tab apicode
+  const changeTabApicode = data.changeTabApicode;
+  const changeNumber = data.changeNumber;
+  const deleteNumbers = data.deleteNumbers || [];
+
+  if (!deleteNumbers.length) {
+    res.send(new ResponseData().error("请输入要解绑定的实例编号"));
+
+    return;
+  }
+
+  const OnChainContext = new CommonUtils({
+    baseUrl: BasicEnv.baseUrl,
+    tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
+  });
+
+  await OnChainContext.getUserByToken();
+
+  const EffectInstance = await OnChainContext.getEffectInstance({ number, changeNumber, changeTabApicode });
+
+  const RedLineTab = await EffectInstance.getTabByApicode({ apicode: apicode });
+
+  if (RedLineTab) {
+    const result = await RedLineTab.getTabData();
+    res.send(new ResponseData().success({ data: result }));
+  } else {
+    res.send(new ResponseData().error("没有找到当前页签"));
+  }
+};
+
+/**
+ * 添加红线实例页签信息
+ */
+const addDataToInstanceRedLineTab = async (req, res) => {
+  // 处理参数
+  const token = req.headers.authorization;
+  const data = req.body;
+  const apicode = data.apicode;
+  const number = data.number;
+  const userId = data.userId;
+  const addInstance = data.addInstance;
+
+  // 变更的tab apicode
+  const changeTabApicode = data.changeTabApicode;
+  const changeNumber = data.changeNumber;
+
+  if (!addInstance.length) {
+    res.send(new ResponseData().error("添加的实例数据为空"));
+    return;
+  }
+
+  const OnChainContext = new CommonUtils({
+    baseUrl: BasicEnv.baseUrl,
+    tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
+  });
+  await OnChainContext.getUserByToken();
+  const EffectInstance = await OnChainContext.getEffectInstance({ number, changeNumber, changeTabApicode });
+  const RedLineTab = await EffectInstance.getTabByApicode({ apicode: apicode });
+
+  if (RedLineTab) {
+    const rowMap = ITab.transformArrayToMap(addInstance, "Number");
+
+    const attrList = Object.keys(addInstance[0]).filter((attr) => attr.apicode != "Number");
+
+    const IRowInstances = await OnChainContext.getInstances(addInstance.map((item) => item.Number).join(","));
+
+    IRowInstances.forEach((row) => {
+      attrList.forEach((attr) => {
+        row.setAttrVal({ tab: RedLineTab, attrApicode: attr, value: rowMap[row.number][attr] });
+      });
+    });
+
+    const result = await RedLineTab.insertTabData({ instanceRows: IRowInstances });
+
+    res.send(new ResponseData().success({ data: result }));
+  } else {
+    res.send(new ResponseData().error("没有找到当前页签"));
+  }
+};
+
+/**
+ * 修改实例页签信息
+ */
+const updateDataToInstanceRedLineTab = async (req, res) => {
+  const token = req.headers.authorization;
+  const data = req.body;
+  const apicode = data.apicode;
+  const number = data.number;
+  const userId = data.userId;
+  const updateInstance = data.updateInstance || [];
+
+  const changeTabApicode = data.changeTabApicode;
+  const changeNumber = data.changeNumber;
+
+  if (!updateInstance.length) {
+    res.send(new ResponseData().error("请输入要修改的实例编号"));
+
+    return;
+  }
+
+  const OnChainContext = new CommonUtils({
+    baseUrl: BasicEnv.baseUrl,
+    tenantId: BasicEnv.tenantId,
+    userId: userId,
+    fetch,
+    token: token,
+  });
+  await OnChainContext.getUserByToken();
+
+  const EffectInstance = await OnChainContext.getEffectInstance({ number, changeNumber, changeTabApicode });
+  const RedLineTab = await EffectInstance.getTabByApicode({ apicode: apicode });
+
+  if (RedLineTab) {
+    const rowMap = ITab.transformArrayToMap(updateInstance, "Number");
+
+    const tabData = await RedLineTab.getTabData();
+
+    const attrList = Object.keys(updateInstance[0]).filter((attr) => attr.apicode != "Number");
+
+    const NumberList = updateInstance.map((item) => item.Number);
+
+    const rows = tabData.filter((row) => NumberList.includes(row.number));
+
+    rows.forEach((row) => {
+      attrList.forEach((attr) => {
+        row.updateAttrVal({ tab: RedLineTab, attrApicode: attr, value: rowMap[row.number][attr] });
+      });
+    });
+
+    const result = await RedLineTab.updateTabData({ tabData: tabData, instanceRows: rows });
+
+    res.send(new ResponseData().success({ data: result }));
+  } else {
+    res.send(new ResponseData().error("没有找到当前页签"));
+  }
+};
+
 export {
   updateDataToInstanceTab,
   updateInstance,
@@ -318,4 +520,8 @@ export {
   delDataToInstanceTab,
   deleteInstance,
   createInstance,
+  delDataToInstanceRedLineTab,
+  getRedLineTabData,
+  updateDataToInstanceRedLineTab,
+  addDataToInstanceRedLineTab,
 };
